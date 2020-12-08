@@ -14,27 +14,28 @@ def walk_level(some_dir):
     return sorted(list(file_list))
 
 
-def test_blacklist(filename: str, blacklist: list):
+def test_blacklist(string: str, blacklist: list):
     """
-
-    :param filename: str name of file
+    :return bool: True if all element from whitelist is not in string
+    :param string: str name of file
     :type blacklist: list of 'bad' words
     """
     result = True
     for bad_words in blacklist:
-        if bad_words in filename:
+        if bad_words in string:
             result = False
     return result
 
 
-def test_whitelist(filename: str, whitelist: list):
+def test_whitelist(string: str, whitelist: list):
     """
-    :param filename: str name of file
+    :return bool: True if any element from whitelist is in string
+    :param string: str name of file
     :param whitelist: list of 'good' words
     """
     result = False
     for good_words in whitelist:
-        if good_words not in filename:
+        if good_words not in string:
             result = True
     return result
 
