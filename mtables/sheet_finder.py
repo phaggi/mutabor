@@ -21,5 +21,5 @@ def getsheetname(full_filename: str, sheet_name_elements: list = config.sheet_na
 
 
 if __name__ == '__main__':
-    testname = getsheetname('../tests/test.xlsx', sheet_name_elements=['test'])
-    print(f'test of getsheetname: test_name = \"{testname}\", {testname == "testname"}')
+    test_name = getsheetname('../tests/test.xlsx', sheet_name_elements=['test'])
+    print(f'test of getsheetname: test_name = \"{test_name}\", {test_name == "testname"}')
