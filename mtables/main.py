@@ -5,7 +5,7 @@ from mtables import fileselector
 from mtables import sheet_finder
 
 if __name__ == '__main__':
-    mypath = '/Users/phaggi/Documents/_test'
+    mypath = Path('/Users/phaggi/Documents/_test')
     filenames = fileselector.make_file_list(file_types=config.file_types,
                                             blacklist=config.blacklist,
                                             whitelist=config.whitelist,
@@ -13,3 +13,4 @@ if __name__ == '__main__':
     pprint(filenames)
     for file in filenames:
         print(f'found: {sheet_finder.getsheetname(file, ["Лист 1"])}')
+    pprint(fileselector.make_file_dict(filenames, config.numfil))
