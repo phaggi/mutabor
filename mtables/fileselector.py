@@ -11,7 +11,7 @@ whitelist = config.whitelist
 numfil = config.numfil
 
 
-def walk_level(some_dir):
+def walk_level(some_dir: str or Path):
     some_dir = Path(some_dir)
     file_list = set()
     with os.scandir(some_dir) as it:
@@ -66,6 +66,8 @@ def make_file_list(file_types: list,
     """
     if not folder_selected:
         folder_selected = select_folder()
+    else:
+        folder_selected = Path(folder_selected)
     file_list = set()
     for filename in walk_level(folder_selected):
         filename_parts = filename.split('.')
