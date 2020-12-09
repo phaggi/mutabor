@@ -5,9 +5,9 @@ from pathlib import Path
 
 from configs import config
 
-file_types = config.file_types
-blacklist = config.blacklist
-whitelist = config.whitelist
+my_file_types = config.file_types
+my_black_list = config.blacklist
+my_white_list = config.whitelist
 numfil = config.numfil
 
 
@@ -26,7 +26,9 @@ def test_blacklist(string: str, blacklist: list):
     :return bool: True if all element from whitelist is not in string
     :param string: str name of file
     :type blacklist: list of 'bad' words
+    todo: '''make searchfor = '|'.join(blacklist) -> result = string.contains(searchfor, na=False)'''
     """
+
     result = True
     for bad_word in blacklist:
         if bad_word in string:
@@ -96,9 +98,9 @@ def make_file_dict(file_list: list, num_fil: dict):
 if __name__ == '__main__':
     print(test_whitelist('test', ['test']))
     pprint(f'walk: {walk_level("/Users/phaggi/Documents/_test")}')
-    my_file_list = make_file_list(file_types=file_types,
-                                  blacklist=blacklist,
-                                  whitelist=whitelist,
+    my_file_list = make_file_list(file_types=my_file_types,
+                                  blacklist=my_black_list,
+                                  whitelist=my_white_list,
                                   folder_selected=Path('/Users/phaggi/Documents/_test'))
     pprint(f'file_list:{my_file_list}')
     pprint(make_file_dict(file_list=my_file_list, num_fil=numfil))
