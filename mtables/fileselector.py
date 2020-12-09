@@ -21,8 +21,8 @@ def test_blacklist(string: str, blacklist: list):
     :type blacklist: list of 'bad' words
     """
     result = True
-    for bad_words in blacklist:
-        if bad_words in string:
+    for bad_word in blacklist:
+        if bad_word in string:
             result = False
     return result
 
@@ -34,8 +34,8 @@ def test_whitelist(string: str, whitelist: list):
     :param whitelist: list of 'good' words
     """
     result = False
-    for good_words in whitelist:
-        if good_words not in string:
+    for good_word in whitelist:
+        if good_word in string:
             result = True
     return result
 
@@ -54,7 +54,7 @@ def make_file_list(file_types: list = config.file_types,
     :param whitelist: whitelist of good words (str)
     :param blacklist: blacklist of fool words (str)
     :param file_types: list of types of files (str)
-    :return: sorted list of files in folder, with type in file_types and without blacklist in name
+    :return: tuple: folder, sorted list of files in folder, with type in file_types and without blacklist in name
     """
     folder_selected = select_folder()
     file_list = set()
@@ -62,10 +62,11 @@ def make_file_list(file_types: list = config.file_types,
         filename_parts = filename.split('.')
         if len(filename_parts) > 1:
             file_type = filename_parts[len(filename_parts) - 1]
-            if file_type in file_types and test_blacklist(filename, blacklist) and test_whitelist(filename, whitelist):
+            if (file_type in file_types) and test_blacklist(filename, blacklist) and test_whitelist(filename, whitelist):
                 file_list.update({filename})
-    return sorted(list(file_list))
+    return folder_selected, sorted(list(file_list))
 
 
 if __name__ == '__main__':
     pprint(make_file_list())
+    print(test_whitelist('test', ['test']))
