@@ -50,7 +50,7 @@ def test_whitelist(string: str, whitelist: list):
 def select_folder():
     root = Tk()
     root.withdraw()
-    return filedialog.askdirectory()
+    return Path(filedialog.askdirectory())
 
 
 def make_file_list(file_types: list,
@@ -65,7 +65,7 @@ def make_file_list(file_types: list,
     :return: tuple: folder, sorted list of files in folder, with type in file_types and without blacklist in name
     """
     if not folder_selected:
-        folder_selected = select_folder()
+        folder_selected = Path(select_folder())
     else:
         folder_selected = Path(folder_selected)
     file_list = set()
