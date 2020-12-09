@@ -3,21 +3,20 @@ from configs import config
 from mtables import fileselector
 
 
-
-def getsheetname(full_filename: str, sheet_name_elements: list = config.sheet_name_elements):
+def getsheetname(full_filename: str, sheet_name_elements: list = ['test']):
     """
 
     :param full_filename:
     :param sheet_name_elements:
-    :return: str first of sheet names with any sheet_name_element
+    :return: str first of sheet names with any sheet_name_element, or return None.
     """
     with pd.ExcelFile(full_filename) as xl:
-        _sheet_name: str
         for _sheet_name in xl.sheet_names:
-            if not fileselector.test_whitelist(_sheet_name, config.sheet_name_elements):
-                continue
-            assert isinstance(_sheet_name, str)
-            return _sheet_name
+            if fileselector.test_whitelist(_sheet_name, sheet_name_elements):
+                assert isinstance(_sheet_name, str)
+                return _sheet_name
+            else:
+                return None
 
 
 if __name__ == '__main__':
