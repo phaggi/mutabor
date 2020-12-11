@@ -21,32 +21,15 @@ def walk_level(some_dir: str or Path):
     return sorted(list(file_list))
 
 
-def test_blacklist(string: str, blacklist: list):
+def find_words_parts(words: list or str, words_parts: list):
     """
-    :return bool: True if all element from whitelist is not in string
-    :param string: str name of file
-    :type blacklist: list of 'bad' words
-    todo: '''make searchfor = '|'.join(blacklist) -> result = string.contains(searchfor, na=False)'''
+    :return list:
+    :param words: word or list of words
+    :type words_parts: list of 'bad' words
     """
-
-    result = True
-    for bad_word in blacklist:
-        if bad_word in string:
-            result = False
-    return result
-
-
-def test_whitelist(string: str, whitelist: list):
-    """
-    :return bool: True if any element from whitelist is in string
-    :param string: str name of file
-    :param whitelist: list of 'good' words
-    """
-    result = False
-    for good_word in whitelist:
-        if good_word in string:
-            result = True
-    return result
+    if isinstance(words, str):
+        words = [words]
+    return [any(part.lower() in word.lower() for part in words_parts) for word in words]
 
 
 def select_folder():
@@ -58,27 +41,29 @@ def select_folder():
 def make_file_list(file_types: list,
                    blacklist: list,
                    whitelist: list,
-                   folder_selected: str = ''):
+                   folder: str = ''):
     """
 
+    :param folder: optional (str or Path)
     :param whitelist: whitelist of good words (str)
     :param blacklist: blacklist of fool words (str)
     :param file_types: list of types of files (str)
     :return: tuple: folder, sorted list of files in folder, with type in file_types and without blacklist in name
     """
-    if not folder_selected:
-        folder_selected = Path(select_folder())
+    if not folder:
+        folder = Path(select_folder())
     else:
-        folder_selected = Path(folder_selected)
+        folder = Path(folder)
     file_list = set()
-    for filename in walk_level(folder_selected):
+    for filename in walk_level(folder):
         filename_parts = filename.split('.')
         if len(filename_parts) > 1:
             file_type = filename_parts[len(filename_parts) - 1]
-            if (file_type in file_types) and test_blacklist(filename, blacklist) and test_whitelist(filename,
-                                                                                                    whitelist):
-                file_list.update({folder_selected/filename})
-    return sorted(list(file_list))
+            if (file_type in file_types) \
+                    and not any(find_words_parts(filename, blacklist)) \
+                    and any(find_words_parts(filename, whitelist)):
+                file_list.update({folder / filename})
+    return sorted(list(file_list)), folder
 
 
 def make_file_dict(file_list: list, num_fil: dict):
@@ -96,11 +81,11 @@ def make_file_dict(file_list: list, num_fil: dict):
 
 
 if __name__ == '__main__':
-    print(test_whitelist('test', ['test']))
+    print(any(find_words_parts('test', ['test'])))
     pprint(f'walk: {walk_level("/Users/phaggi/Documents/_test")}')
-    my_file_list = make_file_list(file_types=my_file_types,
-                                  blacklist=my_black_list,
-                                  whitelist=my_white_list,
-                                  folder_selected=Path('/Users/phaggi/Documents/_test'))
+    my_file_list, _ = make_file_list(file_types=my_file_types,
+                                     blacklist=my_black_list,
+                                     whitelist=my_white_list,
+                                     folder=Path('/Users/phaggi/Documents/_test'))
     pprint(f'file_list:{my_file_list}')
     pprint(make_file_dict(file_list=my_file_list, num_fil=numfil))
