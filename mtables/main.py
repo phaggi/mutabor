@@ -6,10 +6,10 @@ from mtables import sheet_finder
 
 if __name__ == '__main__':
     mypath = Path('/Users/phaggi/Documents/_test')
-    filenames = fileselector.make_file_list(file_types=config.file_types,
-                                            blacklist=config.blacklist,
-                                            whitelist=config.whitelist,
-                                            folder_selected=mypath)
+    filenames, folder = fileselector.make_file_list(file_types=config.file_types,
+                                                    blacklist=config.blacklist,
+                                                    whitelist=config.whitelist,
+                                                    folder=mypath)
     pprint(filenames)
     for file in filenames:
         print(f'found: {sheet_finder.getsheetname(file, ["Лист 1"])}')
