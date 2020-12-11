@@ -12,7 +12,7 @@ def getsheetname(full_filename: str, sheet_name_elements: list = ['test']):
     """
     with pd.ExcelFile(full_filename) as xl:
         for _sheet_name in xl.sheet_names:
-            if fileselector.test_whitelist(_sheet_name, sheet_name_elements):
+            if any(fileselector.find_words_parts(_sheet_name, sheet_name_elements)):
                 assert isinstance(_sheet_name, str)
                 return _sheet_name
             else:
