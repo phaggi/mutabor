@@ -1,4 +1,5 @@
-result_filename = '_result.xlsx'
+result_filename = '_result'
+result_filetype = 'xlsx'
 file_types = ['xls', 'xlsx']
 blacklist = ['result', 'сборка']  # list of fool words (str)
 numfil = {'Белг': 0,
